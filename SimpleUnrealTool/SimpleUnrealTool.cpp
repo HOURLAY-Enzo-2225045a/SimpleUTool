@@ -77,7 +77,7 @@ void BuildProject(const std::string& projectFilePath) {
         return;
     }
     std::string buildPath = ".\\Engine\\Build\\BatchFiles\\Build.bat";
-    std::string command = buildPath + " " + projectName + " Development Win64 " + projectFilePath + " -waitmutex -progress -NoHotReloadFromIDE";
+    std::string command = buildPath + " " + projectName + "Editor Win64 Development " + projectFilePath + " -waitmutex";
     int result = std::system(command.c_str());
     if (result != 0) {
         std::cerr << "Échec de la compilation.\n";
@@ -87,7 +87,7 @@ void BuildProject(const std::string& projectFilePath) {
 }
 
 void PackageProject(const std::string& projectPath, const std::string& packagePath) {
-    std::string command = ".\\Engine\\Build\\BatchFiles\\RunUAT.sh BuildCookRun -project=\"" + projectPath +
+    std::string command = ".\\Engine\\Build\\BatchFiles\\RunUAT.bat BuildCookRun -project=\"" + projectPath +
                           "\" -noP4 -platform=Win64 -clientconfig=Development -cook -build -stage -pak -archive -archivedirectory=\"" + packagePath + "\"";
     int result = std::system(command.c_str());
     if (result != 0) {
