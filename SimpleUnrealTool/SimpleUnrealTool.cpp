@@ -86,6 +86,18 @@ void BuildProject(const std::string& projectFilePath) {
     }
 }
 
+void PackageProject(const std::string& projectPath, const std::string& packagePath) {
+    std::string command = ".\\Engine\\Build\\BatchFiles\\RunUAT.sh BuildCookRun -project=\"" + projectPath +
+                          "\" -noP4 -platform=Win64 -clientconfig=Development -cook -build -stage -pak -archive -archivedirectory=\"" + packagePath + "\"";
+    int result = std::system(command.c_str());
+    if (result != 0) {
+        std::cerr << "Échec du packaging.\n";
+    } else {
+        std::cout << "Packaging réussi.\n";
+    }
+}
+
+
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         std::cerr << "Usage : MyTool [UPROJECT_PATH] [COMMAND] [OPTION]\n";
@@ -99,6 +111,9 @@ int main(int argc, char* argv[]) {
         ShowProjectInfo(projectPath);
     } else if (command == "build") {
         BuildProject(projectPath);
+    } else if (command == "package" && argc == 4) {
+        std::string packagePath = argv[3];
+        PackageProject(projectPath, packagePath);
     } else {
         std::cerr << "Commande inconnue.\n";
     }
